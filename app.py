@@ -334,6 +334,7 @@ def generate_optimized_content(original_content, brand_info, competitor_analysis
     - Lunghezza minima: 1500-2000 parole
     - Formattazione markdown per web
     - SEO-friendly ma naturale
+    - TITOLI: usa solo la prima lettera maiuscola (es: "Contattaci per scoprire le nostre soluzioni" NON "Contattaci per Scoprire le Nostre Soluzioni")
 
     Crea un contenuto che sia:
     ✅ Pronto per la pubblicazione
@@ -341,6 +342,7 @@ def generate_optimized_content(original_content, brand_info, competitor_analysis
     ✅ SEO-friendly
     ✅ Coinvolgente per l'utente
     ✅ Allineato al brand
+    ✅ Con titoli in formato corretto (solo prima lettera maiuscola)
 
     GENERA IL CONTENUTO OTTIMIZZATO COMPLETO:
     """
@@ -361,11 +363,11 @@ def main():
     
     st.markdown("""
     <div class="info-box">
-    <strong>Ottimizza i tuoi contenuti secondo gli standard E-E-A-T di Google:</strong><br>
-    • <strong>Experience</strong>: Esempi pratici e diversificati<br>
-    • <strong>Expertise</strong>: Conoscenza approfondita e accurata<br>
-    • <strong>Authoritativeness</strong>: Fonti affidabili e citazioni<br>
-    • <strong>Trustworthiness</strong>: Trasparenza e obiettività
+    <strong style="color: #1f77b4;">Ottimizza i tuoi contenuti secondo gli standard E-E-A-T di Google:</strong><br>
+    • <strong style="color: #2e8b57;">Experience</strong>: Esempi pratici e diversificati<br>
+    • <strong style="color: #2e8b57;">Expertise</strong>: Conoscenza approfondita e accurata<br>
+    • <strong style="color: #2e8b57;">Authoritativeness</strong>: Fonti affidabili e citazioni<br>
+    • <strong style="color: #2e8b57;">Trustworthiness</strong>: Trasparenza e obiettività
     </div>
     """, unsafe_allow_html=True)
 
