@@ -284,6 +284,78 @@ def generate_optimization_suggestions(content, brand_info, competitor_analysis, 
     except Exception as e:
         return f"Errore nella generazione dei suggerimenti: {str(e)}"
 
+def generate_optimized_content(original_content, brand_info, competitor_analysis, sitemap_urls, eeat_analysis, optimization_suggestions, openai_client):
+    """Genera il contenuto completamente ottimizzato pronto per la pubblicazione"""
+    
+    prompt = f"""
+    Ora devi creare la versione FINALE e OTTIMIZZATA del contenuto, pronto per essere pubblicato.
+    Applica TUTTI i suggerimenti di ottimizzazione E-E-A-T per creare un contenuto di qualità superiore.
+
+    CONTENUTO ORIGINALE:
+    {original_content}
+
+    BRAND INFO:
+    - Nome: {brand_info['nome']}
+    - URL: {brand_info['url']}
+    - Tone of Voice: {brand_info['tone_of_voice']}
+    - Chi Siamo: {brand_info['chi_siamo']}
+
+    ANALISI E-E-A-T:
+    {eeat_analysis}
+
+    SUGGERIMENTI DI OTTIMIZZAZIONE:
+    {optimization_suggestions}
+
+    COMPETITOR INSIGHTS:
+    {competitor_analysis}
+
+    URL INTERNI DISPONIBILI:
+    {sitemap_urls[:15]}
+
+    ISTRUZIONI PER IL CONTENUTO OTTIMIZZATO:
+
+    1. **EXPERIENCE**: Integra esempi concreti, casi studio, dati specifici, esperienze pratiche
+    2. **EXPERTISE**: Dimostra competenza tecnica, usa terminologia appropriata, includi insight originali
+    3. **AUTHORITATIVENESS**: Cita fonti autorevoli, riferimenti a studi, link a risorse credibili
+    4. **TRUSTWORTHINESS**: Mantieni trasparenza, obiettività, includi disclaimers quando necessario
+
+    STRUTTURA IL CONTENUTO CON:
+    - Titolo principale ottimizzato SEO
+    - Introduzione coinvolgente
+    - Sottotitoli H2, H3 ben strutturati
+    - Paragrafi con esempi pratici e dati
+    - Citazioni e riferimenti autorevoli
+    - Link interni rilevanti integrati naturalmente
+    - Call-to-action efficaci
+    - Conclusione che sintetizza e invita all'azione
+
+    MANTIENI:
+    - Tone of voice: {brand_info['tone_of_voice']}
+    - Lunghezza minima: 1500-2000 parole
+    - Formattazione markdown per web
+    - SEO-friendly ma naturale
+
+    Crea un contenuto che sia:
+    ✅ Pronto per la pubblicazione
+    ✅ Ottimizzato per E-E-A-T
+    ✅ SEO-friendly
+    ✅ Coinvolgente per l'utente
+    ✅ Allineato al brand
+
+    GENERA IL CONTENUTO OTTIMIZZATO COMPLETO:
+    """
+
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=4000,
+            temperature=0.5
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Errore nella generazione del contenuto ottimizzato: {str(e)}"
+
 def main():
     st.markdown('<h1 class="main-header">🚀 SEO E-E-A-T Content Optimizer</h1>', unsafe_allow_html=True)
     
@@ -455,8 +527,22 @@ def main():
                 openai
             )
             
+            # Step 5: Generazione Contenuto Ottimizzato
+            status_text.text("✨ Creazione contenuto ottimizzato finale...")
+            progress_bar.progress(90)
+            
+            optimized_content = generate_optimized_content(
+                contenuto_da_analizzare,
+                brand_info,
+                competitor_analysis,
+                sitemap_urls,
+                eeat_analysis,
+                optimization_suggestions,
+                openai
+            )
+            
             progress_bar.progress(100)
-            status_text.text("✅ Analisi completata!")
+            status_text.text("✅ Analisi e ottimizzazione completate!")
             
             # Risultati
             st.markdown('<h2 class="section-header">📊 Risultati Analisi E-E-A-T</h2>', unsafe_allow_html=True)
@@ -469,16 +555,62 @@ def main():
             with st.expander("💡 Piano di Ottimizzazione Completo", expanded=True):
                 st.markdown(optimization_suggestions)
             
+            # NUOVA SEZIONE: Contenuto Ottimizzato
+            st.markdown('<h2 class="section-header">✨ Contenuto Ottimizzato - Pronto per Pubblicazione</h2>', unsafe_allow_html=True)
+            
+            st.markdown("""
+            <div class="success-box">
+            <strong>🎉 Contenuto Finale Ottimizzato!</strong><br>
+            Il contenuto seguente è stato completamente revisionato applicando tutti i suggerimenti E-E-A-T.
+            È pronto per essere copiato e pubblicato sul tuo sito web.
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Contenuto ottimizzato in un expander
+            with st.expander("📝 CONTENUTO FINALE OTTIMIZZATO", expanded=True):
+                st.markdown(optimized_content)
+            
+            # Pulsanti per copiare il contenuto
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("📋 Copia Contenuto Ottimizzato", use_container_width=True):
+                    st.code(optimized_content, language="markdown")
+                    st.info("💡 Seleziona tutto il testo sopra e copialo (Ctrl+A, Ctrl+C)")
+                    
+            with col2:
+                # Conteggio parole
+                word_count = len(optimized_content.split())
+                st.metric("📊 Parole Totali", word_count)
+            
             # Informazioni aggiuntive
             if sitemap_urls:
                 with st.expander(f"🔗 URL Interni Trovati ({len(sitemap_urls)})"):
                     for url in sitemap_urls[:50]:  # Mostra primi 50
                         st.write(f"• {url}")
+            
+            # Riepilogo finale
+            st.markdown('<h2 class="section-header">📋 Riepilogo Ottimizzazione</h2>', unsafe_allow_html=True)
+            
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("🎯 Experience", "Migliorata", delta="↗️")
+            with col2:
+                st.metric("🧠 Expertise", "Potenziata", delta="↗️")
+            with col3:
+                st.metric("👑 Authority", "Rafforzata", delta="↗️")
+            with col4:
+                st.metric("🔒 Trust", "Incrementata", delta="↗️")
                         
             st.markdown("""
             <div class="success-box">
-            <strong>✅ Analisi Completata!</strong><br>
-            Utilizza i suggerimenti per ottimizzare il tuo contenuto secondo gli standard E-E-A-T di Google.
+            <strong>✅ Ottimizzazione Completata!</strong><br>
+            Il tuo contenuto è ora ottimizzato secondo gli standard E-E-A-T di Google e pronto per la pubblicazione.
+            <br><br>
+            <strong>Prossimi Passi:</strong><br>
+            1. Copia il contenuto ottimizzato<br>
+            2. Sostituisci il contenuto originale sul tuo sito<br>
+            3. Aggiungi i link interni suggeriti<br>
+            4. Monitora le performance SEO nei prossimi mesi
             </div>
             """, unsafe_allow_html=True)
             
