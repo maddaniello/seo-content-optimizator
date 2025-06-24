@@ -623,7 +623,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; color: #666;">
-    <strong>SEO E-E-A-T Content Optimizer</strong> - Ottimizza i tuoi contenuti per Google secondo gli standard Experience, Expertise, Authoritativeness e Trustworthiness
+    <strong>SEO E-E-A-T Content Optimizer</strong> - Ottimizza i tuoi contenuti per Google secondo gli standard Experience, Expertise, Authoritativeness e Trustworthiness - Sviluppato da Daniele Pisciottano
     </div>
     """, unsafe_allow_html=True)
 
