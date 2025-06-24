@@ -30,21 +30,21 @@ st.markdown("""
         margin: 1.5rem 0 1rem 0;
     }
     .info-box {
-        background-color: #f0f8ff;
+        background-color: #262730;
         padding: 1rem;
         border-radius: 0.5rem;
         border-left: 4px solid #1f77b4;
         margin: 1rem 0;
     }
     .warning-box {
-        background-color: #fff3cd;
+        background-color: #262730;
         padding: 1rem;
         border-radius: 0.5rem;
         border-left: 4px solid #ffc107;
         margin: 1rem 0;
     }
     .success-box {
-        background-color: #d4edda;
+        background-color: #262730;
         padding: 1rem;
         border-radius: 0.5rem;
         border-left: 4px solid #28a745;
